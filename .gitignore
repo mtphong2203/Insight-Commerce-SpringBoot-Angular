@@ -1,0 +1,4 @@
+src/deployment/env/*.env
+!src/deployment/env/example.env
+src/server/load-env.ps1
+.vscode/settings.json
