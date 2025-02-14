@@ -69,10 +69,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/files/**").hasRole(CommonConstant.ADMIN)
-                        .requestMatchers("/api/v1/roles/**").hasRole(CommonConstant.ADMIN)
-                        .requestMatchers("/api/v1/users/**").hasRole(CommonConstant.ADMIN)
-                        .anyRequest().authenticated())
+                        .requestMatchers("/api/v1/files/**").permitAll()
+                        .requestMatchers("/api/v1/roles/**").permitAll()
+                        .requestMatchers("/api/v1/users/**").permitAll()
+                        .anyRequest().anonymous())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

@@ -39,7 +39,7 @@ public class JWTFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        filterChain.doFilter(httpServletRequest, servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
 }
