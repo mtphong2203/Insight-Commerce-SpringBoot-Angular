@@ -50,7 +50,7 @@ public class TokenService implements ITokenService {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
 
         // Convert LocalDateTime to Date
-        Date expiriation = Date.from(expiredAt.atZone(ZoneId.systemDefault()).toInstant());
+        Date expiration = Date.from(expiredAt.atZone(ZoneId.systemDefault()).toInstant());
 
         try {
             // Serialize using objectMapper
@@ -59,7 +59,7 @@ public class TokenService implements ITokenService {
                     .subject(userInformationDTO.getUsername())
                     .claim("userInformation", userInfoJson)
                     .claim("roles", roles)
-                    .expiration(expiriation)
+                    .expiration(expiration)
                     .signWith(key)
                     .compact();
         } catch (JsonProcessingException e) {
@@ -89,9 +89,9 @@ public class TokenService implements ITokenService {
             Set<GrantedAuthority> authorities = Set.of(roles.split(",")).stream()
                     .map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
 
-            User priciple = new User(claims.getSubject(), "", authorities);
+            User principle = new User(claims.getSubject(), "", authorities);
 
-            return new UsernamePasswordAuthenticationToken(priciple, jwtToken, authorities);
+            return new UsernamePasswordAuthenticationToken(principle, jwtToken, authorities);
         } catch (Exception e) {
             return null;
         }
