@@ -1,10 +1,10 @@
 package com.maiphong.insightcommerce.services.security;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +13,7 @@ import com.maiphong.insightcommerce.core.constants.CommonConstant;
 import com.maiphong.insightcommerce.dtos.security.role.RoleBaseDTO;
 import com.maiphong.insightcommerce.dtos.security.role.RoleCreateUpdateDTO;
 import com.maiphong.insightcommerce.dtos.security.role.RoleMasterDTO;
+import com.maiphong.insightcommerce.dtos.security.role.RoleSearchDTO;
 import com.maiphong.insightcommerce.entities.security.Role;
 import com.maiphong.insightcommerce.exceptions.ResourceNotFoundException;
 import com.maiphong.insightcommerce.mappers.IRoleMapper;
@@ -38,7 +39,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public List<RoleMasterDTO> findByName(String keyword) {
+    public List<RoleMasterDTO> search(String keyword) {
 
         Specification<Role> spec = buildKeywordSpecification(keyword);
         List<Role> roles = roleRepository.findAll(spec);
@@ -47,10 +48,14 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public Page<RoleMasterDTO> findPaginated(String keyword, Pageable pageable) {
-        Specification<Role> spec = buildKeywordSpecification(keyword);
+    public Page<RoleMasterDTO> search(RoleSearchDTO request) {
+        Specification<Role> spec = buildKeywordSpecification(request.getKeyword());
 
-        Page<Role> roles = roleRepository.findAll(spec, pageable);
+        if (spec == null) {
+            spec = Specification.where(null);
+        }
+
+        Page<Role> roles = roleRepository.findAll(spec, request.toPageable());
 
         return roles.map(roleMapper::toMasterDTO);
     }
@@ -72,6 +77,17 @@ public class RoleService implements IRoleService {
     }
 
     @Override
+    public RoleBaseDTO findByName(String name) {
+        var role = roleRepository.findByName(name).orElse(null);
+
+        if (role == null) {
+            return null;
+        }
+
+        return roleMapper.toBaseDTO(role);
+    }
+
+    @Override
     public RoleMasterDTO findById(String id) {
         Role role = roleRepository.findById(UUID.fromString(id)).orElse(null);
 
@@ -88,10 +104,10 @@ public class RoleService implements IRoleService {
             throw new ResourceNotFoundException(CommonConstant.ROLE_NOT_FOUND);
         }
 
-        Role existRole = roleRepository.findByName(roleDTO.getName());
+        Role existRole = roleRepository.findByName(roleDTO.getName()).orElse(null);
 
         if (existRole != null) {
-            throw new IllegalArgumentException(CommonConstant.ROLE_ALREADY_EXIST);
+            throw new IllegalArgumentException("Role already exist!");
         }
 
         Role role = roleMapper.toEntity(roleDTO);
@@ -107,10 +123,10 @@ public class RoleService implements IRoleService {
             throw new ResourceNotFoundException(CommonConstant.ROLE_NOT_FOUND);
         }
 
-        Role existRole = roleRepository.findByName(roleDTO.getName());
+        Role existRole = roleRepository.findByName(roleDTO.getName()).orElse(null);
 
         if (existRole != null && existRole.getId().equals(id)) {
-            throw new IllegalArgumentException(CommonConstant.ROLE_ALREADY_EXIST);
+            throw new IllegalArgumentException("Role already exist!");
         }
 
         Role role = roleRepository.findById(id).orElse(null);
@@ -128,15 +144,20 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public boolean delete(UUID id) {
+    public boolean delete(UUID id, boolean hardDelete) {
         var role = roleRepository.findById(id).orElse(null);
 
         if (role == null) {
-            throw new ResourceNotFoundException(CommonConstant.ROLE_NOT_FOUND);
+            throw new ResourceNotFoundException(CommonConstant.USER_NOT_FOUND);
         }
-        roleRepository.delete(role);
 
-        return !roleRepository.existsById(id);
+        if (hardDelete) {
+            roleRepository.delete(role);
+        } else {
+            role.setDeletedAt(ZonedDateTime.now());
+            roleRepository.save(role);
+        }
+        return true;
     }
 
 }

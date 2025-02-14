@@ -20,7 +20,7 @@ public interface IUserService {
 
     List<UserMasterDTO> search(String keyword);
 
-    Page<UserMasterDTO> searchPaginated(UserSearchDTO userSearchDTO);
+    Page<UserMasterDTO> search(UserSearchDTO userSearchDTO);
 
     UserMasterDTO getById(String id);
 
@@ -28,7 +28,7 @@ public interface IUserService {
 
     UserMasterDTO update(UUID id, UserCreateUpdateDTO userDTO);
 
-    boolean delete(UUID id);
+    boolean delete(UUID id, boolean hardDelete);
 
     UserInformationDTO updateProfile(ProfileUpdateDTO request);
 

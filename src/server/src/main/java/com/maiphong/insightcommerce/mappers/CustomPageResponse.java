@@ -2,7 +2,7 @@ package com.maiphong.insightcommerce.mappers;
 
 import java.util.Collection;
 
-import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Links;
 import org.springframework.hateoas.PagedModel;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ public class CustomPageResponse<T> {
 
     private Collection<T> data;
 
-    private Link links;
+    private Links links;
 
     private PagedModel.PageMetadata page;
 

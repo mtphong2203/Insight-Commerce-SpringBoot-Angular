@@ -1,7 +1,6 @@
 package com.maiphong.insightcommerce.dtos.security.user;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 import com.maiphong.insightcommerce.dtos.MasterDTO;
 import com.maiphong.insightcommerce.dtos.security.role.RoleDTO;
