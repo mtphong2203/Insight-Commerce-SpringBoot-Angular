@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.maiphong.insightcommerce.dtos.security.role.RoleBaseDTO;
 import com.maiphong.insightcommerce.dtos.security.role.RoleCreateUpdateDTO;
 import com.maiphong.insightcommerce.dtos.security.role.RoleMasterDTO;
+import com.maiphong.insightcommerce.dtos.security.role.RoleSearchDTO;
 
 public interface IRoleService {
     List<RoleBaseDTO> findAll();
 
-    List<RoleMasterDTO> findByName(String keyword);
+    RoleBaseDTO findByName(String name);
 
-    Page<RoleMasterDTO> findPaginated(String keyword, Pageable pageable);
+    List<RoleMasterDTO> search(String keyword);
+
+    Page<RoleMasterDTO> search(RoleSearchDTO request);
 
     RoleMasterDTO findById(String id);
 
@@ -23,5 +25,5 @@ public interface IRoleService {
 
     RoleMasterDTO update(UUID id, RoleCreateUpdateDTO roleDTO);
 
-    boolean delete(UUID id);
+    boolean delete(UUID id, boolean hardDelete);
 }

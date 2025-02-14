@@ -10,8 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ValidateResetPasswordTokenRequestDTO {
-
     @NotBlank(message = "Token is required")
-    @Length(min = 5, max = 255, message = "Token must be between 5 and 255 characters")
+    @Length(min = 5, max = 1000, message = "Token must be between 5 and 500 characters")
     private String token;
 }

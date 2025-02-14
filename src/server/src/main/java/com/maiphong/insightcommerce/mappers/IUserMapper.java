@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.mapstruct.*;
 
+import com.maiphong.insightcommerce.dtos.security.auth.RegisterRequestDTO;
 import com.maiphong.insightcommerce.dtos.security.user.UserBaseDTO;
 import com.maiphong.insightcommerce.dtos.security.user.UserCreateUpdateDTO;
 import com.maiphong.insightcommerce.dtos.security.user.UserInformationDTO;
@@ -21,8 +22,16 @@ public interface IUserMapper {
 
     User toEntity(UserCreateUpdateDTO dto);
 
+    User toEntity(RegisterRequestDTO dto);
+
     @Mapping(target = "roles", source = "roles", qualifiedByName = "mapRoles")
     UserInformationDTO toInformationDTO(User entity);
+
+    // Keep the insertedAt, updatedAt, deletedAt fields as they are
+    @Mapping(target = "insertedAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    void updateEntity(UserCreateUpdateDTO dto, @MappingTarget User entity);
 
     @Named("mapRoles")
     default Set<String> mapRoles(Set<Role> roles) {
@@ -30,11 +39,5 @@ public interface IUserMapper {
                 .map(Role::getName)
                 .collect(Collectors.toSet());
     }
-
-    // Keep the insertedAt, updatedAt, deletedAt fields as they are
-    @Mapping(target = "insertedAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "deletedAt", ignore = true)
-    void updateEntity(UserCreateUpdateDTO dto, @MappingTarget User entity);
 
 }
