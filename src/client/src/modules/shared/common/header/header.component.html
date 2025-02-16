@@ -1,0 +1,36 @@
+<header class="shadow-md bg-slate-50 sticky top-0 z-10">
+  <div class="contain w-[80%] flex justify-between items-center m-auto">
+    <!-- Brand logo -->
+    <div class="logo-brand">
+      <a [routerLink]="['/']" class="flex items-center gap-1">
+        <img [src]="logoEShop" class="w-12 rounded-sm" alt="Logo E-Shop" />
+        <span class="text-2xl">EShop</span>
+      </a>
+    </div>
+    <!-- Navbar -->
+    <nav>
+      <ul class="nav-list flex">
+        <li class="nav-item" *ngFor="let item of navItem">
+          <a
+            [routerLink]="[item.link]"
+            class="nav-link p-4 block hover:bg-blue-600 hover:text-white"
+          >
+            {{ item.title }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- Profile user -->
+    <div class="profile">
+      <ul class="profile-list flex">
+        <li class="profile-item" *ngFor="let item of profileItem">
+          <a
+            [routerLink]="[item.link]"
+            class="profile-link p-4 block hover:bg-blue-600 hover:text-white"
+            >{{ item.title }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,33 @@
+<aside class="border-r border-slate-500 min-h-screen">
+  <h1 class="text-4xl border-b border-slate-500 p-4">E-Shop</h1>
+  <ul class="sidebar-list">
+    <li class="sidebar-item border-b border-slate-500">
+      <a
+        [routerLink]="['/manager/categories']"
+        class="sidebar-link p-4 block hover:bg-blue-500 hover:text-white"
+        >Categories management</a
+      >
+    </li>
+    <li class="sidebar-item border-b border-slate-500">
+      <a
+        [routerLink]="['/manager/products']"
+        class="sidebar-link p-4 block hover:bg-blue-500 hover:text-white"
+        >Products management</a
+      >
+    </li>
+    <li class="sidebar-item border-b border-slate-500">
+      <a
+        [routerLink]="['/manager/users']"
+        class="sidebar-link p-4 block hover:bg-blue-500 hover:text-white"
+        >Users management</a
+      >
+    </li>
+    <li class="sidebar-item border-b border-slate-500">
+      <a
+        [routerLink]="['/manager/roles']"
+        class="sidebar-link p-4 block hover:bg-blue-500 hover:text-white"
+        >Roles management</a
+      >
+    </li>
+  </ul>
+</aside>
