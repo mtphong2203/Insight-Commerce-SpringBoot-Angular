@@ -1,4 +1,6 @@
-<div class="contain">
-  <img [src]="bgAuth" class="w-full h-full" alt="Background Authentication" />
-  <router-outlet />
+<div class="contain relative">
+  <img [src]="bgAuth" class="w-full h-screen" alt="Background Authentication" />
+  <div class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+    <router-outlet />
+  </div>
 </div>
