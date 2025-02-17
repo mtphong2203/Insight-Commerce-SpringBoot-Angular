@@ -1,7 +1,7 @@
 <form
   [formGroup]="formLogin"
   (ngSubmit)="onSubmit()"
-  class="bg-slate-50 p-4 rounded-md"
+  class="p-4 bg-white rounded-md"
 >
   <h1 class="text-2xl text-center mb-2">Login</h1>
   <div class="form-group mb-2">
@@ -10,7 +10,8 @@
       type="text"
       formControlName="username"
       id="username"
-      class="p-2 rounded-sm w-full"
+      placeholder="Enter user name"
+      class="p-2 rounded-sm w-full border border-slate-700 focus:outline-blue-600"
     />
   </div>
   <div class="form-group mb-2">
@@ -19,12 +20,13 @@
       type="password"
       formControlName="password"
       id="password"
-      class="p-2 rounded-sm w-full"
+      placeholder="Enter password"
+      class="p-2 rounded-sm w-full border border-slate-700 focus:outline-blue-600"
     />
   </div>
   <button
     type="submit"
-    class="w-full rounded-sm mt-2 p-2 bg-blue-500 text-white hover:bg-blue-700"
+    class="w-full border border-slate-400 focus:outline-none rounded-sm mt-2 p-2 bg-blue-500 text-white hover:bg-blue-700"
   >
     Login
   </button>
